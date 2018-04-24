@@ -1,0 +1,157 @@
+body {
+    padding-top: 70px;
+    padding-bottom: 30px;
+}
+
+input.form-control,
+select.form-control {
+    margin-bottom: 5px;
+}
+
+.wbd-form-login {
+    max-width: 500px;
+    margin-top: 20px;
+}
+
+.wbd-space-up {
+    margin-top: 10px;
+}
+
+.wbd-form-login > p {
+    min-height: 50px;
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.wbd-x-space-up {
+    margin-top: 30px;
+}
+
+.wbd-page-content {
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
+.wbd-page-content .btn-primary,
+.wbd-page-content .btn-danger {
+    margin-top: 10px;
+}
+
+.wbd-widget {
+    margin-bottom: 10px;
+    min-height: 50px;
+}
+
+.wbd-widget > .wbd-widget-toolbar {
+    position: absolute;
+    right: 15px;
+    background: white;
+    opacity: 0.9;
+    padding: 15px;
+    border-bottom-left-radius: 10px;
+    z-index: 5;
+}
+
+.wbd-widget p {
+    margin-right:50px;
+}
+
+.wbd-page-content .list-group .list-inline {
+    margin-top: 5px;
+}
+
+.wbd-page-content.container {
+    margin-left: 16px;
+}
+
+.youtube-video {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+}
+
+.wbd-widget .youtube-video iframe {
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+}
+
+.wbd-page-content ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+.wbd-photo-container div {
+    margin-top: 10px;
+}
+
+.wbd-widget-html-container {
+    margin: 0px;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+
+.wbd-google-btn {
+    font-family: 'Roboto', sans-serif;
+    border-radius: 4px;
+    border-color: #337ab7;
+    border-width: 1px;
+    font-weight: bold;
+}
+
+.wbd-page-content .wbd-table-header a {
+    color: white;
+}
+
+.wbd-question-table {
+    border-radius: 4px;
+}
+
+.wbd-question-table div {
+    margin: 10px;
+    padding: 0px;
+}
+
+.wbd-question-table h4 {
+    padding: 0px;
+}
+
+.wbd-default-left-margin {
+    margin-left: 15px;
+}
+
+.wbd-user-answers {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.wbd-answer-vote {
+    margin: 10px 0 0 10px;
+    padding: 0px;
+    text-align: center;
+}
+
+.wbd-no-padding {
+    padding: 0px;
+}
+
+.wbd-question-edit {
+    margin-right: 20px;
+}
+
+.wbd-question-asker {
+    margin-left: 40px;
+    margin-bottom: 10px;
+}
+
+.wbd-question-footer {
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.wbd-table-with-button {
+    margin-bottom: 5px;
+}
