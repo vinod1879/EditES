@@ -39,6 +39,7 @@
     <script src="js/docs.min.js"></script>
     <script src="app.js"></script>
     <script src="config.js"></script>
+    <script src="directives/auto-text.js"></script>
 
     <!-- CONTROLLERS -->
     <script src="views/home/controllers/home.controller.js"></script>
@@ -48,15 +49,35 @@
 
 </head>
 <body>
-<div ng-controller="homeController as vm">
-    {{vm.message }}
-    <div ng-if="vm.success">
-        {{vm.currentIndex + 1}} of {{vm.documentCount}}
-        <h3>{{vm.currentDocId}}</h3>
+<div ng-controller="homeController as vm" class="container-fluid">
+    <div class="text-center">
+        <h2>ElasticSearch Annotator</h2>
+    </div>
+    <div class="row text-center">
+        <b>Index: </b> {{vm.config.index_name}}
+    </div>
 
-        <div ng-repeat="key in vm.keys">
-            {{key}}: {{vm.docDetails[key]}}
+    <div ng-if="vm.success">
+        <div class="text-center">
+            <div>
+                {{vm.currentIndex + 1}} of {{vm.documentCount}}
+            </div>
+            <h3>{{vm.currentDocId}}</h3>
         </div>
+        <div ng-repeat="key in vm.keys" class="row wbd-space-up">
+            <div class="col-xs-1">{{key}}</div>
+            <div class="col-xs-6"><textarea type="text"
+                                            textarea
+                                            class="form-control"
+                                            ng-model="vm.docDetails[key]"></textarea>
+            </div>
+            <div class="col-xs-2"><input type="checkbox" />&nbsp;Update</div>
+            <div class="col-xs-3">&nbsp;</div>
+        </div>
+
+    </div>
+    <div ng-if="!vm.success">
+        Unable to connect with elasticsearch
     </div>
 </div>
 </body>

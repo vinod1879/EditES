@@ -8,6 +8,7 @@
         var vm = this;
 
         vm.message = "Hello, there!";
+        vm.config = ES_CONFIG;
         vm.documentCount = null;
         vm.currentIndex = null;
         vm.currentDocId = null;
