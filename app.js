@@ -1,4 +1,4 @@
 (function () {
     angular
-        .module('StudentForum', ['textAngular']);
+        .module('StudentForum', ['textAngular', 'elasticsearch']);
 })();
