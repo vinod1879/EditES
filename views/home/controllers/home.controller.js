@@ -13,6 +13,7 @@
         vm.currentIndex = null;
         vm.currentDocId = null;
         vm.success = false;
+        vm.fetching = false;
         vm.docDetails = null;
         vm.includedKeys = {};
         vm.keys = ["body", "is_spam", "split", "subject"];
@@ -31,31 +32,34 @@
         init();
 
         function init() {
+            vm.fetching = true;
             apiService
-                .fetchAll()
-                .then(function (result) {
-
-                    if (result.hits && result.hits.hits) {
+                .fetchAll(function (allIds) {
+                    vm.fetching = false;
+                    if (allIds) {
 
                         vm.success = true;
                         vm.currentIndex = 0;
-                        vm.documentCount = result.hits.hits.length;
+                        vm.documentCount = allIds.length;
 
-                        docList = result.hits.hits;
+                        docList = allIds;
                         indexUpdated();
                     }
                 });
         }
 
         function indexUpdated() {
-            vm.currentDocId = docList[vm.currentIndex]._id;
+            vm.currentDocId = docList[vm.currentIndex];
             getDocument();
         }
 
         function getDocument() {
+            vm.fetching = true;
             apiService
                 .fetchByDocId(vm.currentDocId)
                 .then(function (result) {
+
+                    vm.fetching = false;
 
                     if (result && result.found) {
 
@@ -110,9 +114,13 @@
                 updatedObject[key] = vm.docDetails[key];
             }
 
+            vm.fetching = true;
+
             apiService
                 .updateByDocId(vm.currentDocId, updatedObject)
                 .then(function (result) {
+
+                    vm.fetching = false;
 
                     if (result && result.result == "updated") {
                         next();

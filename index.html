@@ -57,7 +57,7 @@
         <b>Index: </b> {{vm.config.index_name}}
     </div>
 
-    <div ng-if="vm.success">
+    <div ng-if="vm.success && !vm.fetching">
         <div class="text-center">
             <div>
                 {{vm.currentIndex + 1}} of {{vm.documentCount}}
@@ -92,8 +92,11 @@
         </div>
 
     </div>
-    <div ng-if="!vm.success">
-        Unable to connect with elasticsearch
+    <div ng-if="vm.fetching">
+        <h3>Connecting to elasticsearch</h3>
+    </div>
+    <div ng-if="!vm.success && !vm.fetching">
+        <h3>Unable to connect with elasticsearch</h3>
     </div>
 </div>
 </body>

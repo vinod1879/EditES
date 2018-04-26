@@ -11,11 +11,13 @@
         this.fetchByDocId = fetchByDocId;
         this.updateByDocId = updateByDocId;
 
-        function fetchAll() {
+        function fetchAll(callback) {
+
+            var allIds = [];
 
             return client.search({
                 "index": ES_CONFIG.index_name,
-                "type": ES_CONFIG.type,
+                "scroll": '30s',
                 "body": {
                     "size": ES_CONFIG.size,
                     "from": 0,
@@ -23,6 +25,19 @@
                         "match_all": {}
                     },
                     "stored_fields": []
+                }
+            }, function getMoreUntilDone(error, response) {
+                response.hits.hits.forEach(function (hit) {
+                    allIds.push(hit._id);
+                });
+
+                if (response.hits.total > allIds.length) {
+                    client.scroll({
+                        scrollId: response._scroll_id,
+                        scroll: '30s'
+                    }, getMoreUntilDone);
+                } else {
+                    callback(allIds);
                 }
             });
         }
