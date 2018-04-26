@@ -67,12 +67,25 @@
         <div ng-repeat="key in vm.keys" class="row wbd-space-up">
             <div class="col-xs-1">{{key}}</div>
             <div class="col-xs-6"><textarea type="text"
+                                            ng-disabled="!vm.includedKeys[key]"
                                             textarea
                                             class="form-control"
                                             ng-model="vm.docDetails[key]"></textarea>
             </div>
-            <div class="col-xs-2"><input type="checkbox" />&nbsp;Update</div>
+            <div class="col-xs-2">
+                <input type="checkbox"
+                       ng-click="vm.toggleKey(key)"
+                       ng-model="vm.includedKeys[key]" />&nbsp;Update
+            </div>
             <div class="col-xs-3">&nbsp;</div>
+        </div>
+        <div class="container-fluid wbd-x-space-up text-center">
+            <a class="btn btn-default"
+                ng-disabled="vm.previousDisabled()">Previous</a>
+            <a class="btn btn-default"
+                ng-disabled="vm.updateDisabled()">Update + Next</a>
+            <a class="btn btn-default"
+               ngd-disabled="vm.updateDisabled()">Next</a>
         </div>
 
     </div>

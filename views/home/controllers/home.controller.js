@@ -14,9 +14,16 @@
         vm.currentDocId = null;
         vm.success = false;
         vm.docDetails = null;
+        vm.includedKeys = {};
         vm.keys = ["body", "is_spam", "split", "subject"];
 
+        vm.toggleKey = toggleKey;
+        vm.previousDisabled = previousDisabled;
+        vm.updateDisabled = updateDisabled;
+        vm.nextDisabled = nextDisabled;
+
         var docList = [];
+        var keysToUpdate = [];
 
         init();
 
@@ -47,8 +54,36 @@
                     if (result && result.found) {
 
                         vm.docDetails = result._source;
+
+                        vm.includedKeys = {};
+                        for (var index in vm.keys) {
+                            var key = vm.keys[index];
+                            vm.includedKeys[key] = false;
+                        }
                     }
                 });
+        }
+
+        function toggleKey(key) {
+            if (vm.includedKeys[key]) {
+                keysToUpdate.push(key);
+            }
+            else {
+                var index = keysToUpdate.indexOf(key);
+                keysToUpdate.splice(index, 1);
+            }
+        }
+
+        function previousDisabled() {
+            return vm.currentIndex == 0;
+        }
+
+        function updateDisabled() {
+            return keysToUpdate.length == 0;
+        }
+
+        function nextDisabled() {
+            return vm.currentIndex >= docList.length;
         }
     }
 })();
