@@ -16,7 +16,7 @@
         vm.fetching = false;
         vm.docDetails = null;
         vm.includedKeys = {};
-        vm.keys = ["body", "is_spam", "split", "subject"];
+        vm.keys = ES_CONFIG.keys;
 
         vm.toggleKey = toggleKey;
         vm.previousDisabled = previousDisabled;
@@ -90,7 +90,7 @@
         }
 
         function previousDisabled() {
-            return vm.currentIndex == 0;
+            return !updateDisabled() || (vm.currentIndex == 0);
         }
 
         function updateDisabled() {
@@ -98,7 +98,7 @@
         }
 
         function nextDisabled() {
-            return vm.currentIndex >= docList.length;
+            return !updateDisabled() || (vm.currentIndex >= docList.length);
         }
 
         function previous() {
@@ -106,7 +106,7 @@
             indexUpdated();
         }
 
-        function update() {
+        function update(move) {
             var updatedObject = {};
 
             for (var index in keysToUpdate) {
@@ -122,8 +122,11 @@
 
                     vm.fetching = false;
 
-                    if (result && result.result == "updated") {
+                    if ((move == true) && result && (result.result == "updated")) {
                         next();
+                    }
+                    else {
+                        indexUpdated();
                     }
                 });
         }

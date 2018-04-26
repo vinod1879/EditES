@@ -84,11 +84,14 @@
                ng-click="vm.previous()"
                ng-disabled="vm.previousDisabled()">Previous</a>
             <a class="btn btn-default"
-               ng-click="vm.update()"
+               ng-click="vm.update(false)"
+               ng-disabled="vm.updateDisabled()">Update</a>
+            <a class="btn btn-default"
+               ng-click="vm.update(true)"
                ng-disabled="vm.updateDisabled()">Update + Next</a>
             <a class="btn btn-default"
                ng-click="vm.next()"
-               ngd-disabled="vm.updateDisabled()">Next</a>
+               ng-disabled="vm.nextDisabled()">Next</a>
         </div>
 
     </div>

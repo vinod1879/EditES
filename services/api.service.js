@@ -19,7 +19,7 @@
                 "index": ES_CONFIG.index_name,
                 "scroll": '30s',
                 "body": {
-                    "size": ES_CONFIG.size,
+                    "size": 10000,
                     "from": 0,
                     "query": {
                         "match_all": {}
