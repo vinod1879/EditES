@@ -81,10 +81,13 @@
         </div>
         <div class="container-fluid wbd-x-space-up text-center">
             <a class="btn btn-default"
-                ng-disabled="vm.previousDisabled()">Previous</a>
+               ng-click="vm.previous()"
+               ng-disabled="vm.previousDisabled()">Previous</a>
             <a class="btn btn-default"
-                ng-disabled="vm.updateDisabled()">Update + Next</a>
+               ng-click="vm.update()"
+               ng-disabled="vm.updateDisabled()">Update + Next</a>
             <a class="btn btn-default"
+               ng-click="vm.next()"
                ngd-disabled="vm.updateDisabled()">Next</a>
         </div>
 

@@ -21,6 +21,9 @@
         vm.previousDisabled = previousDisabled;
         vm.updateDisabled = updateDisabled;
         vm.nextDisabled = nextDisabled;
+        vm.previous = previous;
+        vm.update = update;
+        vm.next = next;
 
         var docList = [];
         var keysToUpdate = [];
@@ -39,27 +42,35 @@
                         vm.documentCount = result.hits.hits.length;
 
                         docList = result.hits.hits;
-                        vm.currentDocId = docList[0]._id;
-
-                        getDocument(vm.currentDocId);
+                        indexUpdated();
                     }
                 });
         }
 
-        function getDocument(doc_id) {
+        function indexUpdated() {
+            vm.currentDocId = docList[vm.currentIndex]._id;
+            getDocument();
+        }
+
+        function getDocument() {
             apiService
-                .fetchByDocId(doc_id)
+                .fetchByDocId(vm.currentDocId)
                 .then(function (result) {
-                    console.log(result);
+
                     if (result && result.found) {
 
+                        vm.success = true;
                         vm.docDetails = result._source;
 
                         vm.includedKeys = {};
+                        keysToUpdate = [];
                         for (var index in vm.keys) {
                             var key = vm.keys[index];
                             vm.includedKeys[key] = false;
                         }
+                    }
+                    else {
+                        vm.success = false;
                     }
                 });
         }
@@ -84,6 +95,34 @@
 
         function nextDisabled() {
             return vm.currentIndex >= docList.length;
+        }
+
+        function previous() {
+            vm.currentIndex -= 1;
+            indexUpdated();
+        }
+
+        function update() {
+            var updatedObject = {};
+
+            for (var index in keysToUpdate) {
+                var key = keysToUpdate[index];
+                updatedObject[key] = vm.docDetails[key];
+            }
+
+            apiService
+                .updateByDocId(vm.currentDocId, updatedObject)
+                .then(function (result) {
+
+                    if (result && result.result == "updated") {
+                        next();
+                    }
+                });
+        }
+
+        function next() {
+            vm.currentIndex += 1;
+            indexUpdated();
         }
     }
 })();
