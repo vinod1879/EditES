@@ -70,6 +70,7 @@
                 <span ng-repeat="opt in vm.optionValuesForKey(key)">
                 <input name="options_{{key}}"
                        type="radio"
+                       ng-disabled="!vm.isKeyEditable(key)"
                        value="{{opt}}"
                        ng-model="vm.docDetails[key]" />
                     {{opt}} &nbsp;
@@ -77,6 +78,7 @@
             </div>
             <div class="col-xs-6" ng-if="vm.isDropdown(key)">
                 <select id="dd_{{key}}"
+                        ng-disabled="!vm.isKeyEditable(key)"
                         ng-model="vm.docDetails[key]"
                         class="form-control">
                     <option ng-repeat="opt in vm.optionValuesForKey(key)"
@@ -85,7 +87,7 @@
             </div>
             <div class="col-xs-6" ng-if="vm.isDefaultOption(key)">
                 <textarea type="text"
-                          ng-disabled="!vm.includedKeys[key]"
+                          ng-disabled="!vm.isKeyEditable(key)"
                           textarea
                           class="form-control"
                           ng-model="vm.docDetails[key]">
@@ -93,9 +95,9 @@
                 </textarea>
             </div>
             <div class="col-xs-2">
-                <input type="checkbox"
-                       ng-click="vm.toggleKey(key)"
-                       ng-model="vm.includedKeys[key]" />&nbsp;Update
+                <a class="btn btn-default"
+                   ng-click="vm.resetKey(key)"
+                   ng-disabled="!vm.hasKeyChanged(key)">Reset</a>
             </div>
             <div class="col-xs-3">&nbsp;</div>
         </div>

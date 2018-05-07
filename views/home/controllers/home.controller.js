@@ -15,10 +15,9 @@
         vm.success = false;
         vm.fetching = false;
         vm.docDetails = null;
-        vm.includedKeys = {};
         vm.keys = ES_CONFIG.keys.map(function(x) { return x.name});
 
-        vm.toggleKey = toggleKey;
+        vm.isKeyEditable = isKeyEditable;
         vm.previousDisabled = previousDisabled;
         vm.updateDisabled = updateDisabled;
         vm.nextDisabled = nextDisabled;
@@ -29,9 +28,10 @@
         vm.isDropdown = isDropdown;
         vm.isDefaultOption = isDefaultOption;
         vm.optionValuesForKey = optionValuesForKey;
+        vm.resetKey = resetKey;
+        vm.hasKeyChanged = hasKeyChanged;
 
         var docList = [];
-        var keysToUpdate = [];
         var fieldKeys = ES_CONFIG.keys;
         var readonlyCopy = {};
 
@@ -72,13 +72,6 @@
                         vm.success = true;
                         vm.docDetails = result._source;
                         readonlyCopy = angular.copy(vm.docDetails);
-
-                        vm.includedKeys = {};
-                        keysToUpdate = [];
-                        for (var index in vm.keys) {
-                            var key = vm.keys[index];
-                            vm.includedKeys[key] = false;
-                        }
                     }
                     else {
                         console.log('Fetch Document Failed');
@@ -87,14 +80,34 @@
                 });
         }
 
-        function toggleKey(key) {
-            if (vm.includedKeys[key]) {
-                keysToUpdate.push(key);
+        function hasKeyChanged(key) {
+            return vm.docDetails[key] !== readonlyCopy[key];
+        }
+
+        function resetKey(key) {
+            vm.docDetails[key] = readonlyCopy[key];
+        }
+
+        function hasSomethingChanged () {
+            for (var index in vm.keys) {
+                var currentKey = vm.keys[index];
+                if (hasKeyChanged(currentKey)) {
+                    return true;
+                }
             }
-            else {
-                var index = keysToUpdate.indexOf(key);
-                keysToUpdate.splice(index, 1);
+            return false;
+        }
+
+        function isKeyEditable(key) {
+            for (var index in fieldKeys) {
+                var currentField = fieldKeys[index];
+                if (currentField.name === key) {
+                    if (currentField.is_readonly == undefined || currentField.is_readonly !== true) {
+                        return true;
+                    }
+                }
             }
+            return false;
         }
 
         function previousDisabled() {
@@ -102,7 +115,7 @@
         }
 
         function updateDisabled() {
-            return keysToUpdate.length == 0;
+            return !hasSomethingChanged()
         }
 
         function nextDisabled() {
@@ -110,17 +123,28 @@
         }
 
         function previous() {
+            if (previousDisabled())
+                return;
+
             vm.currentIndex -= 1;
             indexUpdated();
         }
 
         function update(move) {
+            if (updateDisabled())
+                return;
+
             var updatedObject = {};
 
-            for (var index in keysToUpdate) {
-                var key = keysToUpdate[index];
-                updatedObject[key] = vm.docDetails[key];
+            for (var index in vm.keys) {
+                var currentKey = vm.keys[index];
+                if (hasKeyChanged(currentKey)) {
+                    updatedObject[currentKey] = vm.docDetails[currentKey];
+                }
             }
+
+            console.log('Updating Object...');
+            console.log(updatedObject);
 
             vm.fetching = true;
 
@@ -140,6 +164,9 @@
         }
 
         function next() {
+            if (nextDisabled())
+                return;
+
             vm.currentIndex += 1;
             indexUpdated();
         }
