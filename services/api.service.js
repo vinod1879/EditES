@@ -21,9 +21,7 @@
                 "body": {
                     "size": 10000,
                     "from": 0,
-                    "query": {
-                        "match_all": {}
-                    },
+                    "query": ES_CONFIG.query,
                     "stored_fields": []
                 }
             }, function getMoreUntilDone(error, response) {

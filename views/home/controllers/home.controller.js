@@ -16,6 +16,7 @@
         vm.fetching = false;
         vm.docDetails = null;
         vm.keys = ES_CONFIG.keys.map(function(x) { return x.name});
+        vm.errorMessage = "";
 
         vm.isKeyEditable = isKeyEditable;
         vm.previousDisabled = previousDisabled;
@@ -44,12 +45,17 @@
                     vm.fetching = false;
                     if (allIds) {
 
-                        vm.success = true;
-                        vm.currentIndex = 0;
-                        vm.documentCount = allIds.length;
+                        if (allIds.length > 0) {
+                            vm.success = true;
+                            vm.currentIndex = 0;
+                            vm.documentCount = allIds.length;
 
-                        docList = allIds;
-                        indexUpdated();
+                            docList = allIds;
+                            indexUpdated();
+                        }
+                        else {
+                            vm.errorMessage = "Error: failed to fetch documents. Check `query`...";
+                        }
                     }
                 });
         }
@@ -77,6 +83,9 @@
                         console.log('Fetch Document Failed');
                         vm.success = false;
                     }
+                },
+                function (error) {
+                    vm.errorMessage = "Error: " + error.message;
                 });
         }
 

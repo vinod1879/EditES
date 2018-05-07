@@ -10,6 +10,9 @@ var ES_CONFIG = {
     url: "http://localhost:9200",
     index_name: "spam_dataset",
     type: "document",
+    query: {
+        "match_phrase": {"body": "good"}
+    },
     keys: [
         {
             "name": "body",
@@ -54,8 +57,8 @@ var ES_CONFIG = {
  name: "NAME_OF_THE_KEY",        // required
  is_readonly: true/false,        // optional - if missing, the field is considered editable
  option: "TYPE_OF_OPTION",       // optional - possible values "dropdown" and "radio"
- //            if the option key is missing, the
- //            field is displayed as text
+                                 //            if the option key is missing, the
+                                 //            field is displayed as text
  values: ["option1", "option2"], // optional - has effect only if option = radio or dropdown
  }
 

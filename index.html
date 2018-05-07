@@ -123,6 +123,9 @@
     <div ng-if="!vm.success && !vm.fetching">
         <h3>Unable to connect with elasticsearch</h3>
     </div>
+    <div ng-if="vm.errorMessage">
+        <h3>{{vm.errorMessage}}</h3>
+    </div>
 </div>
 </body>
 </html>
