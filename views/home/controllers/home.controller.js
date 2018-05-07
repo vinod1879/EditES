@@ -16,7 +16,7 @@
         vm.fetching = false;
         vm.docDetails = null;
         vm.includedKeys = {};
-        vm.keys = ES_CONFIG.keys;
+        vm.keys = ES_CONFIG.keys.map(function(x) { return x.name});
 
         vm.toggleKey = toggleKey;
         vm.previousDisabled = previousDisabled;
@@ -25,9 +25,15 @@
         vm.previous = previous;
         vm.update = update;
         vm.next = next;
+        vm.isRadio = isRadio;
+        vm.isDropdown = isDropdown;
+        vm.isDefaultOption = isDefaultOption;
+        vm.optionValuesForKey = optionValuesForKey;
 
         var docList = [];
         var keysToUpdate = [];
+        var fieldKeys = ES_CONFIG.keys;
+        var readonlyCopy = {};
 
         init();
 
@@ -65,6 +71,7 @@
 
                         vm.success = true;
                         vm.docDetails = result._source;
+                        readonlyCopy = angular.copy(vm.docDetails);
 
                         vm.includedKeys = {};
                         keysToUpdate = [];
@@ -74,6 +81,7 @@
                         }
                     }
                     else {
+                        console.log('Fetch Document Failed');
                         vm.success = false;
                     }
                 });
@@ -134,6 +142,38 @@
         function next() {
             vm.currentIndex += 1;
             indexUpdated();
+        }
+
+        function isRadio(key) {
+            return isFieldOfType(key, "radio");
+        }
+        
+        function isDropdown(key) {
+            return isFieldOfType(key, "dropdown");
+        }
+
+        function isDefaultOption(key) {
+            return !isFieldOfType(key, "radio") && !isFieldOfType(key, "dropdown");
+        }
+
+        function optionValuesForKey(key) {
+            for (var index in fieldKeys) {
+                var currentField = fieldKeys[index];
+                if (currentField.name === key) {
+                    return currentField.values;
+                }
+            }
+            return [];
+        }
+
+        function isFieldOfType(key, type) {
+            for (var index in fieldKeys) {
+                var currentField = fieldKeys[index];
+                if (currentField.name === key && currentField.option === type) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 })();

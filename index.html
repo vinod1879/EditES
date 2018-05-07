@@ -66,11 +66,31 @@
         </div>
         <div ng-repeat="key in vm.keys" class="row wbd-space-up">
             <div class="col-xs-1">{{key}}</div>
-            <div class="col-xs-6"><textarea type="text"
-                                            ng-disabled="!vm.includedKeys[key]"
-                                            textarea
-                                            class="form-control"
-                                            ng-model="vm.docDetails[key]"></textarea>
+            <div class="col-xs-6" ng-if="vm.isRadio(key)">
+                <span ng-repeat="opt in vm.optionValuesForKey(key)">
+                <input name="options_{{key}}"
+                       type="radio"
+                       value="{{opt}}"
+                       ng-model="vm.docDetails[key]" />
+                    {{opt}} &nbsp;
+                </span>
+            </div>
+            <div class="col-xs-6" ng-if="vm.isDropdown(key)">
+                <select id="dd_{{key}}"
+                        ng-model="vm.docDetails[key]"
+                        class="form-control">
+                    <option ng-repeat="opt in vm.optionValuesForKey(key)"
+                            value="{{opt}}">{{opt}}</option>
+                </select>
+            </div>
+            <div class="col-xs-6" ng-if="vm.isDefaultOption(key)">
+                <textarea type="text"
+                          ng-disabled="!vm.includedKeys[key]"
+                          textarea
+                          class="form-control"
+                          ng-model="vm.docDetails[key]">
+
+                </textarea>
             </div>
             <div class="col-xs-2">
                 <input type="checkbox"
