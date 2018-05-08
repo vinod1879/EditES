@@ -164,7 +164,8 @@
                     vm.fetching = false;
 
                     if ((move == true) && result && (result.result == "updated")) {
-                        next();
+                        vm.currentIndex += 1;
+                        indexUpdated();
                     }
                     else {
                         indexUpdated();
