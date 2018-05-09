@@ -159,3 +159,7 @@ select.form-control {
 .wbd-table-with-button {
     margin-bottom: 5px;
 }
+
+.form-control[disabled] {
+    background-color: #FFFFFF;
+}

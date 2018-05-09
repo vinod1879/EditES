@@ -96,6 +96,7 @@
             </div>
             <div class="col-xs-2">
                 <a class="btn btn-default"
+                   ng-if="vm.isKeyEditable(key)"
                    ng-click="vm.resetKey(key)"
                    ng-disabled="!vm.hasKeyChanged(key)">Reset</a>
             </div>
