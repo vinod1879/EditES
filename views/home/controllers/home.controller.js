@@ -31,6 +31,7 @@
         vm.optionValuesForKey = optionValuesForKey;
         vm.resetKey = resetKey;
         vm.hasKeyChanged = hasKeyChanged;
+        vm.classForKey = classForKey;
 
         var docList = [];
         var fieldKeys = ES_CONFIG.keys;
@@ -211,6 +212,13 @@
                 }
             }
             return false;
+        }
+
+        function classForKey(key) {
+            if (hasKeyChanged(key)) {
+                return "wbd-changed-input";
+            }
+            return "";
         }
     }
 })();

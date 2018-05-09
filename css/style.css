@@ -163,3 +163,15 @@ select.form-control {
 .form-control[disabled] {
     background-color: #FFFFFF;
 }
+
+.wbd-changed-input {
+    border: 1px solid #FF0000 !important;
+}
+
+.wbd-form-radio {
+    margin: 0px 5px 0px 5px;
+}
+
+.wbd-red-note {
+    color: red;
+}
