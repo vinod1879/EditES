@@ -4,7 +4,7 @@
         .module('StudentForum')
         .controller('homeController', homeController);
 
-    function homeController(apiService) {
+    function homeController(apiService, $timeout) {
         var vm = this;
 
         vm.message = "Hello, there!";
@@ -51,7 +51,7 @@
                             vm.currentIndex = 0;
                             vm.documentCount = allIds.length;
 
-                            docList = allIds;
+                            docList = sanitizeDocumentList(allIds);
                             indexUpdated();
                         }
                         else {
@@ -79,6 +79,7 @@
                         vm.success = true;
                         vm.docDetails = result._source;
                         readonlyCopy = angular.copy(vm.docDetails);
+                        highlightElement();
                     }
                     else {
                         console.log('Fetch Document Failed');
@@ -219,6 +220,39 @@
                 return "wbd-changed-input";
             }
             return "";
+        }
+
+        function highlightElement() {
+
+            if (!ES_CONFIG.keywords || ES_CONFIG.keywords.length == 0)
+                return;
+
+            $timeout(function () {
+                $("textarea").highlightTextarea({
+                    words: ES_CONFIG.keywords
+                });
+            }, 200);
+
+        }
+
+        function sanitizeDocumentList(array) {
+            if (ES_CONFIG.randomize && ES_CONFIG.randomize == true) {
+                return shuffle(array)
+            }
+            else {
+                return array;
+            }
+        }
+
+        function shuffle(a) {
+            var j, temp, i;
+            for (i = a.length - 1; i > 0; i--) {
+                j = Math.floor(Math.random() * (i + 1));
+                temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+            }
+            return a;
         }
     }
 })();
