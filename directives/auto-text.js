@@ -8,7 +8,7 @@ angular
                     function resize () {
                         element.css('height', 'auto');
 
-                        var height = element[0].scrollHeight;
+                        var height = Math.min(element[0].scrollHeight, 200);
                         if (height > 0) element.css('height', height + 'px');
                     }
 

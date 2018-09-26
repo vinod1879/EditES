@@ -36,6 +36,7 @@
     <script src="vendor/es/elasticsearch.angular.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.highlighttextarea.min.js"></script>
+    <script src="js/jqeury.findHighlights.js"></script>
     <script src="js/textAngular-rangy.min.js"></script>
     <script src="js/textAngular-sanitize.min.js"></script>
     <script src="js/textAngular.min.js"></script>
@@ -98,10 +99,10 @@
                 <textarea type="text"
                           ng-disabled="!vm.isKeyEditable(key)"
                           ng-class="vm.classForKey(key)"
+                          id="{{key}}"
                           textarea
                           class="form-control"
                           ng-model="vm.docDetails[key]">
-
                 </textarea>
             </div>
             <div class="col-xs-2">
@@ -109,6 +110,14 @@
                    ng-if="vm.isKeyEditable(key)"
                    ng-click="vm.resetKey(key)"
                    ng-disabled="!vm.hasKeyChanged(key)">Reset</a>
+                <div ng-if="vm.isDefaultOption(key)">
+                    <a class="btn glyphicon glyphicon-arrow-left"
+                       ng-click="vm.highlightPrev(key)">
+                    </a>
+                    <a class="btn glyphicon glyphicon-arrow-right"
+                       ng-click="vm.highlightNext(key)">
+                    </a>
+                </div>
             </div>
             <div class="col-xs-3">&nbsp;</div>
         </div>

@@ -32,6 +32,8 @@
         vm.resetKey = resetKey;
         vm.hasKeyChanged = hasKeyChanged;
         vm.classForKey = classForKey;
+        vm.highlightNext = highlightNext;
+        vm.highlightPrev = highlightPrev;
 
         var docList = [];
         var fieldKeys = ES_CONFIG.keys;
@@ -231,8 +233,24 @@
                 $("textarea").highlightTextarea({
                     words: ES_CONFIG.keywords
                 });
-            }, 200);
 
+                $("textarea").findHighlights(ES_CONFIG.keywords);
+
+            }, 200);
+        }
+
+        function highlightPrev(textareaId) {
+            var e = jQuery.Event("keyup");
+
+            e.which = 37; // left arrow
+            $("#" + textareaId).trigger(e);
+        }
+
+        function highlightNext(textareaId) {
+            var e = jQuery.Event("keyup");
+
+            e.which = 39; // right arrow
+            $("#" + textareaId).trigger(e);
         }
 
         function sanitizeDocumentList(array) {
