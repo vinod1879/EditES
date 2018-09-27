@@ -35,7 +35,7 @@
         vm.highlightNext = highlightNext;
         vm.highlightPrev = highlightPrev;
         vm.highlightInfo = {};
-        vm.containsHighlights = {}
+        vm.containsHighlights = {};
 
         var docList = [];
         var fieldKeys = ES_CONFIG.keys;
