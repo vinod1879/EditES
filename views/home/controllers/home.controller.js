@@ -34,6 +34,8 @@
         vm.classForKey = classForKey;
         vm.highlightNext = highlightNext;
         vm.highlightPrev = highlightPrev;
+        vm.highlightInfo = {};
+        vm.containsHighlights = {}
 
         var docList = [];
         var fieldKeys = ES_CONFIG.keys;
@@ -235,6 +237,7 @@
                 });
 
                 $("textarea").findHighlights(ES_CONFIG.keywords);
+                updateHighlightInfo();
 
             }, 200);
         }
@@ -244,6 +247,7 @@
 
             e.which = 37; // left arrow
             $("#" + textareaId).trigger(e);
+            updateHighlightInfo();
         }
 
         function highlightNext(textareaId) {
@@ -251,6 +255,19 @@
 
             e.which = 39; // right arrow
             $("#" + textareaId).trigger(e);
+            updateHighlightInfo();
+        }
+
+        function updateHighlightInfo() {
+
+            for (var i=0; i < vm.keys.length; i++) {
+                var key = vm.keys[i];
+                var element = document.getElementById(key);
+                if (element) {
+                    vm.highlightInfo[key] = element.highlightInfo;
+                    vm.containsHighlights[key] = element.containsHighlights;
+                }
+            }
         }
 
         function sanitizeDocumentList(array) {

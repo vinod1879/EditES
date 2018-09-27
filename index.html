@@ -110,13 +110,14 @@
                    ng-if="vm.isKeyEditable(key)"
                    ng-click="vm.resetKey(key)"
                    ng-disabled="!vm.hasKeyChanged(key)">Reset</a>
-                <div ng-if="vm.isDefaultOption(key)">
+                <div ng-if="vm.containsHighlights[key]">
                     <a class="btn glyphicon glyphicon-arrow-left"
                        ng-click="vm.highlightPrev(key)">
                     </a>
                     <a class="btn glyphicon glyphicon-arrow-right"
                        ng-click="vm.highlightNext(key)">
                     </a>
+                    <div>{{vm.highlightInfo[key]}}</div>
                 </div>
             </div>
             <div class="col-xs-3">&nbsp;</div>

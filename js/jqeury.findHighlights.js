@@ -8,6 +8,7 @@ jQuery.fn.findHighlights = function(keywords) {
         var highlightArray = [];
         var highlightIndex = -1;
         var textarea = this;
+        textarea.highlightInfo = '';
 
         var getKeywordPositions = function (text) {
             var positions = [];
@@ -39,16 +40,17 @@ jQuery.fn.findHighlights = function(keywords) {
         var updateIndex = function (delta) {
             var array = highlightArray;
             var index = highlightIndex + delta;
-            if (index + delta < 0) {
+            if (index < 0) {
                 index = array.length - 1;
             }
-            else if (index + delta >= array.length) {
+            else if (index >= array.length) {
                 index = 0;
             }
             highlightIndex = index;
             var position = array[index];
 
             highlightPosition(position);
+            textarea.highlightInfo = '' + (index + 1) + ' of ' + array.length;
         };
 
         var highlightPosition = function (position) {
@@ -70,11 +72,9 @@ jQuery.fn.findHighlights = function(keywords) {
         var growTextarea = function (ev) {
 
             if (ev.key == "ArrowLeft" || ev.which == 37) {
-                console.log('Left');
                 highlightPrev();
             }
             else if (ev.key === "ArrowRight" || ev.which == 39) {
-                console.log('Right');
                 highlightNext();
             }
         };
@@ -86,6 +86,10 @@ jQuery.fn.findHighlights = function(keywords) {
             if (arr && arr.length > 0) {
                 highlightArray = arr;
                 highlightIndex = 0;
+                textarea.containsHighlights = true;
+            }
+            else {
+                textarea.containsHighlights = false;
             }
         };
 
@@ -118,7 +122,7 @@ jQuery.fn.findHighlights = function(keywords) {
         mirror.style.lineHeight = jQuery(this).css('line-height');
 
         // Style the textarea
-        this.style.overflow = "hidden";
+        //this.style.overflow = "hidden";
         this.style.minHeight = this.rows+"em";
 
         var ininitalHeight = $(mirror).height();
