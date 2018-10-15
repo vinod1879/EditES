@@ -97,7 +97,7 @@
             </div>
             <div class="col-xs-6" ng-if="vm.isDefaultOption(key)">
                 <textarea type="text"
-                          ng-disabled="!vm.isKeyEditable(key)"
+                          ng-keydown="vm.onChange($event, key);"
                           ng-class="vm.classForKey(key)"
                           id="{{key}}"
                           textarea

@@ -19,6 +19,7 @@
         vm.errorMessage = "";
 
         vm.isKeyEditable = isKeyEditable;
+        vm.onChange = onChange;
         vm.previousDisabled = previousDisabled;
         vm.updateDisabled = updateDisabled;
         vm.nextDisabled = nextDisabled;
@@ -95,6 +96,12 @@
                 });
         }
 
+        function onChange(ev, key) {
+            if (!isKeyEditable(key)) {
+                ev.preventDefault();
+            }
+        }
+
         function hasKeyChanged(key) {
             return vm.docDetails[key] !== readonlyCopy[key];
         }
@@ -153,7 +160,7 @@
 
             for (var index in vm.keys) {
                 var currentKey = vm.keys[index];
-                if (hasKeyChanged(currentKey)) {
+                if (hasKeyChanged(currentKey) && (isKeyEditable(currentKey))) {
                     updatedObject[currentKey] = vm.docDetails[currentKey];
                 }
             }
